@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: gallery_backend
+
+  thymeleaf:
+    cache: false
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/security?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    username: root
+    password: 1234
+  sql:
+    init:
+      mode: never
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+      properties:
+        hibernate:
+          format_sql: true
+          dialect: org.hibernate.dialect.MySQLDialect
+          default_batch_fetch_size: 100
+    defer-datasource-initialization: true
+
+  messages:
+    basename: errors
+
+logging:
+  level:
+    org:
+      root: info
+    org.hibernate.SQL: debug
