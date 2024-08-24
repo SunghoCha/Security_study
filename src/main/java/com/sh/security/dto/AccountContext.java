@@ -3,12 +3,14 @@ package com.sh.security.dto;
 import com.sh.security.dto.request.AccountRequest;
 import com.sh.security.dto.response.AccountResponse;
 import lombok.Builder;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
 
+@Getter
 public class AccountContext implements UserDetails {
 
     private final AccountResponse accountResponse;
