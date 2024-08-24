@@ -28,31 +28,13 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain customSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-                .formLogin(form -> form
-                        //.loginPage("/loginPage")
-                        .loginProcessingUrl("/loginProc")
-                        .defaultSuccessUrl("/", true)  //defaultSuccessHandler 사용하므로 커스텀있으면 커스텀이 우선권
-                        .failureUrl("/failed")
-                        .usernameParameter("userId")
-                        .passwordParameter("password")
-                        .successHandler(new AuthenticationSuccessHandler() {
-                            @Override
-                            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                                System.out.println("authentication" + authentication);
-                                response.sendRedirect("/home");
-                            }
-                        })
-                        .failureHandler(new AuthenticationFailureHandler() {
-                            @Override
-                            public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-                                System.out.println("exception = " + exception);
-                                response.sendRedirect("/index");
-                            }
-                        })
-                        .permitAll()
-                );
-
+        http
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/css/**", "/images/**", "/js/**", "/favicon", "/*/icon-*").permitAll()
+                        .requestMatchers("/").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .formLogin(form -> form.loginPage("/login").permitAll());
 
         return http.build();
     }

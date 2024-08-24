@@ -1,23 +1,28 @@
 package com.sh.security.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 public class IndexController {
 
     @GetMapping("/")
-    public String index() {
-        return "index";
+    public String dashboard() {
+        return "/dashboard";
     }
 
-    @GetMapping("/home")
-    public String home() {
-        return "home";
+    @GetMapping("/user")
+    public String user() {
+        return "/user";
     }
 
-    @GetMapping("/loginPage")
+    @GetMapping("/manager")
     public String loginPage() {
-        return "loginPage";
+        return "/manager";
+    }
+
+    @GetMapping("/admin")
+    public String admin() {
+        return "/admin";
     }
 }
