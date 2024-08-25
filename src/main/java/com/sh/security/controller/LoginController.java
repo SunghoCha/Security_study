@@ -1,8 +1,11 @@
 package com.sh.security.controller;
 
+import com.sh.security.dto.request.AccountRequest;
+import com.sh.security.dto.response.AccountResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -19,6 +22,7 @@ public class LoginController {
 
         model.addAttribute("error", error);
         model.addAttribute("excepton", exception);
+
         return "login/login";
     }
 
@@ -35,6 +39,17 @@ public class LoginController {
             new SecurityContextLogoutHandler().logout(request, response, authentication);
         }
         return "redirect:/login";
+    }
+
+    @GetMapping("/denied")
+    public String accessDenied(@RequestParam(value="exception", required = false) String exception,
+                               @AuthenticationPrincipal AccountResponse accountResponse,
+                               Model model) {
+
+        model.addAttribute("username", accountResponse.getUsername());
+        model.addAttribute("exception", exception);
+
+        return "login/denied";
     }
 
 }
