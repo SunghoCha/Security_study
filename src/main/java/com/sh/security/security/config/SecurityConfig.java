@@ -1,6 +1,7 @@
 package com.sh.security.security.config;
 
 
+import com.sh.security.security.entrypoint.RestAuthenticationEntryPoint;
 import com.sh.security.security.filters.RestAuthenticationFilter;
 import com.sh.security.security.handler.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,6 +46,7 @@ public class SecurityConfig {
                         .requestMatchers("/admin").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )
+                .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(form -> form
                         .loginPage("/login").permitAll()
                         .defaultSuccessUrl("/", true)
@@ -70,10 +72,17 @@ public class SecurityConfig {
                 .securityMatcher("/api/**")
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/css/**", "/images/**", "/js/**", "/favicon.*", "/*/icon-*").permitAll()
-                        .anyRequest().permitAll())
+                        .requestMatchers("/api","/api/login").permitAll()
+                        .requestMatchers("/api/user").hasAuthority("ROLE_USER")
+                        .requestMatchers("/api/manager").hasAuthority("ROLE_MANAGER")
+                        .requestMatchers("/api/admin").hasAuthority("ROLE_ADMIN")
+                        .anyRequest().authenticated())
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(restAuthenticationFilter(http, authenticationManager), UsernamePasswordAuthenticationFilter.class)
-                .authenticationManager(authenticationManager);
+                .authenticationManager(authenticationManager)
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+                        .accessDeniedHandler(new RestAccessDeniedHandler()));
 
         return http.build();
     }

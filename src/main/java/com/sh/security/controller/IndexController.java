@@ -25,4 +25,9 @@ public class IndexController {
     public String admin() {
         return "/admin";
     }
+
+    @GetMapping("/api")
+    public String restDashboard() {
+        return "rest/dashboard";
+    }
 }
