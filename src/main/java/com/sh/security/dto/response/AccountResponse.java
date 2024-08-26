@@ -31,7 +31,7 @@ public class AccountResponse {
                 .username(account.getUsername())
                 .password(account.getPassword())
                 .age(account.getAge())
-                .roles(account.getRoles())
+                .roles("ADMIN") // 임시
                 .build();
     }
 }
