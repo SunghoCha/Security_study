@@ -1,6 +1,7 @@
 package com.sh.security.security.config;
 
 
+import com.sh.security.security.dsl.RestApiDsl;
 import com.sh.security.security.entrypoint.RestAuthenticationEntryPoint;
 import com.sh.security.security.filters.RestAuthenticationFilter;
 import com.sh.security.security.handler.*;
@@ -77,23 +78,28 @@ public class SecurityConfig {
                         .requestMatchers("/api/manager").hasAuthority("ROLE_MANAGER")
                         .requestMatchers("/api/admin").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated())
-                .csrf(AbstractHttpConfigurer::disable)
-                .addFilterBefore(restAuthenticationFilter(http, authenticationManager), UsernamePasswordAuthenticationFilter.class)
+                //.csrf(AbstractHttpConfigurer::disable)
+                //.addFilterBefore(restAuthenticationFilter(http, authenticationManager), UsernamePasswordAuthenticationFilter.class)
                 .authenticationManager(authenticationManager)
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(new RestAuthenticationEntryPoint())
-                        .accessDeniedHandler(new RestAccessDeniedHandler()));
+                        .accessDeniedHandler(new RestAccessDeniedHandler()))
+                .with(new RestApiDsl<>(), restDsl -> restDsl
+                        .restSuccessHandler(restAuthenticationSuccessHandler)
+                        .restFailureHandler(restAuthenticationFailureHandler)
+                        .loginProcessingUrl("/api/login"));
 
         return http.build();
     }
 
-    private RestAuthenticationFilter restAuthenticationFilter(HttpSecurity http, AuthenticationManager authenticationManager) {
+//    private RestAuthenticationFilter restAuthenticationFilter(HttpSecurity http, AuthenticationManager authenticationManager) {
+//
+//        RestAuthenticationFilter restAuthenticationFilter = new RestAuthenticationFilter(http);
+//        restAuthenticationFilter.setAuthenticationManager(authenticationManager);
+//        restAuthenticationFilter.setAuthenticationSuccessHandler(restAuthenticationSuccessHandler);
+//        restAuthenticationFilter.setAuthenticationFailureHandler(restAuthenticationFailureHandler);
+//
+//        return restAuthenticationFilter;
+//    }
 
-        RestAuthenticationFilter restAuthenticationFilter = new RestAuthenticationFilter(http);
-        restAuthenticationFilter.setAuthenticationManager(authenticationManager);
-        restAuthenticationFilter.setAuthenticationSuccessHandler(restAuthenticationSuccessHandler);
-        restAuthenticationFilter.setAuthenticationFailureHandler(restAuthenticationFailureHandler);
-
-        return restAuthenticationFilter;
-    }
 }
