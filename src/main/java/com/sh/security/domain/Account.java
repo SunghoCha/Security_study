@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Controller;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -19,10 +22,12 @@ public class Account {
     private String username;
     private String password;
     private int age;
-    private String roles;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    Set<Role> roles = new LinkedHashSet<>();
 
     @Builder
-    public Account(String username, String password, int age, String roles) {
+    public Account(String username, String password, int age, Set<Role> roles) {
         this.username = username;
         this.password = password;
         this.age = age;

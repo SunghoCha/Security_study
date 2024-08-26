@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter @Setter
 @NoArgsConstructor
 public class AccountRequest {
@@ -13,10 +15,9 @@ public class AccountRequest {
     private String username;
     private String password;
     private int age;
-    private String roles;
+    private List<String> roles;
 
-    @Builder
-    public AccountRequest( String username, String password, int age, String roles) {
+    public AccountRequest(String username, String password, int age, List<String> roles) {
         this.username = username;
         this.password = password;
         this.age = age;
@@ -28,7 +29,7 @@ public class AccountRequest {
                 .username(username)
                 .password(encodedPassword)
                 .age(age)
-                .roles(roles)
+                //.roles(roles)
                 .build();
     }
 }
