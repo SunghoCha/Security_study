@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service(value = "userDetailsService")
 @RequiredArgsConstructor
@@ -28,9 +29,10 @@ public class FormUserDetailsService implements UserDetailsService {
         if (account == null) {
             throw new UsernameNotFoundException("No user found with username" + username);
         }
-
         AccountResponse response = AccountResponse.of(account);
-        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(account.getRoles()));
+        List<GrantedAuthority> authorities = account.getAccountRoles().stream()
+                .map(accountRole -> new SimpleGrantedAuthority(accountRole.getRole().getRoleName()))
+                .collect(Collectors.toList());
 
         return AccountContext.builder()
                 .accountResponse(response)

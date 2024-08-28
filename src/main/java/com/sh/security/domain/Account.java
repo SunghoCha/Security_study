@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Controller;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -24,13 +25,13 @@ public class Account {
     private int age;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    Set<Role> roles = new LinkedHashSet<>();
+    Set<AccountRole> accountRoles = new LinkedHashSet<>();
 
     @Builder
-    public Account(String username, String password, int age, Set<Role> roles) {
+    public Account(String username, String password, int age, Set<AccountRole> accountRoles) {
         this.username = username;
         this.password = password;
         this.age = age;
-        this.roles = roles;
+        this.accountRoles = accountRoles;
     }
 }

@@ -1,10 +1,14 @@
 package com.sh.security.dto.response;
 
 import com.sh.security.domain.Account;
+import com.sh.security.domain.Role;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter @Setter
 @NoArgsConstructor
@@ -14,10 +18,10 @@ public class AccountResponse {
     private String username;
     private String password;
     private int age;
-    private String roles;
+    private Set<RoleResponse> roles;
 
     @Builder
-    public AccountResponse(Long id, String username, String password, int age, String roles) {
+    public AccountResponse(Long id, String username, String password, int age, Set<RoleResponse> roles) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -31,7 +35,9 @@ public class AccountResponse {
                 .username(account.getUsername())
                 .password(account.getPassword())
                 .age(account.getAge())
-                .roles("ADMIN") // 임시
+                .roles(account.getAccountRoles().stream()
+                        .map(RoleResponse::of)
+                        .collect(Collectors.toSet())) // 임시
                 .build();
     }
 }

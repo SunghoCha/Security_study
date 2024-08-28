@@ -8,9 +8,7 @@ public class MapBaseUrlRoleMapper implements UrlRoleMapper{
 
     private final LinkedHashMap<String, String > urlRoleMappings = new LinkedHashMap<>();
 
-    @Override
-    public Map<String, String> getUrlRoleMappings() {
-
+    public MapBaseUrlRoleMapper() {
         urlRoleMappings.put("/", "permitAll");
         urlRoleMappings.put("/css/**", "permitAll");
         urlRoleMappings.put("/js/**", "permitAll");
@@ -25,7 +23,10 @@ public class MapBaseUrlRoleMapper implements UrlRoleMapper{
         urlRoleMappings.put("/admin/**", "ROLE_ADMIN");
         urlRoleMappings.put("/manager", "ROLE_MANAGER");
         urlRoleMappings.put("/db", "hasRole('DBA')");
+    }
 
+    @Override
+    public Map<String, String> getUrlRoleMappings() {
         return new HashMap<>(urlRoleMappings);
     }
 }

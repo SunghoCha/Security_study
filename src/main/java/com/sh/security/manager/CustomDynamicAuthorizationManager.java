@@ -1,6 +1,8 @@
 package com.sh.security.manager;
 
+import com.sh.security.repository.RoleResourcesRepository;
 import com.sh.security.security.mapper.MapBaseUrlRoleMapper;
+import com.sh.security.security.mapper.PersistentUrlRoleMapper;
 import com.sh.security.security.service.DynamicAuthorizationService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -26,13 +28,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CustomDynamicAuthorizationManager implements AuthorizationManager<RequestAuthorizationContext> {
 
-    private static final AuthorizationDecision DENY = new AuthorizationDecision(false);
+    private static final AuthorizationDecision ACCESS = new AuthorizationDecision(true);
     private final HandlerMappingIntrospector handlerMappingIntrospector;
+    private final RoleResourcesRepository roleResourcesRepository;
     private List<RequestMatcherEntry<AuthorizationManager<RequestAuthorizationContext>>> mappings;
 
     @PostConstruct
     public void mapping() {
-        DynamicAuthorizationService authorizationService = new DynamicAuthorizationService(new MapBaseUrlRoleMapper());
+        DynamicAuthorizationService authorizationService = new DynamicAuthorizationService(new PersistentUrlRoleMapper(roleResourcesRepository));
         mappings = authorizationService.getUrlRoleMappings()
                 .entrySet()
                 .stream()
@@ -75,7 +78,7 @@ public class CustomDynamicAuthorizationManager implements AuthorizationManager<R
                 return manager.check(authentication, requestAuthorizationContext);
             }
         }
-        return DENY;
+        return ACCESS;
     }
 
     @Override

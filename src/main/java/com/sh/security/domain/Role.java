@@ -21,4 +21,7 @@ public class Role {
 
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
     private Set<RoleResources> roleResources = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
+    private Set<AccountRole> accountRoles = new HashSet<>();
 }
