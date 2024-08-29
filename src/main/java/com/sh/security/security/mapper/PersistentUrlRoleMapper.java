@@ -10,22 +10,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
+@RequiredArgsConstructor
 public class PersistentUrlRoleMapper implements UrlRoleMapper{
 
-    private final LinkedHashMap<String, String> urlRoleMappings;
-
-    public PersistentUrlRoleMapper(RoleResourcesRepository roleResourcesRepository) {
-        this.urlRoleMappings = new LinkedHashMap<>();
-        roleResourcesRepository.findAll() // N + 1 문제 발생하는데 여기선 성능최적화 안하고 시큐리티 기능 확인용...
-                .forEach(src -> urlRoleMappings.put(
-                        src.getResources().getResourceName(),
-                        src.getRole().getRoleName()
-                ));
-    }
+    private final RoleResourcesRepository roleResourcesRepository;
 
     @Override
     public Map<String, String> getUrlRoleMappings() {
-        return new HashMap<>(urlRoleMappings);
+        return roleResourcesRepository.findAll().stream()
+                .collect(Collectors.toMap(
+                        roleResources -> roleResources.getResources().getResourceName(),
+                        roleResources -> roleResources.getRole().getRoleName()
+                ));
     }
 }
