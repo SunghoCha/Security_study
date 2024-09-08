@@ -36,6 +36,7 @@ public class CustomDynamicAuthorizationManager implements AuthorizationManager<R
     private final RoleHierarchyImpl roleHierarchy;
     private List<RequestMatcherEntry<AuthorizationManager<RequestAuthorizationContext>>> mappings;
     private DynamicAuthorizationService authorizationService;
+
     @PostConstruct
     public void mapping() {
         authorizationService = new DynamicAuthorizationService(new PersistentUrlRoleMapper(roleResourcesRepository));
