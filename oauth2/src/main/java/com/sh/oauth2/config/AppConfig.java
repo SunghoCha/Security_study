@@ -13,7 +13,7 @@ import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepo
 public class AppConfig {
 
     @Bean
-    public OAuth2AuthorizedClientManager auth2AuthorizedClientManager(ClientRegistrationRepository clientRegistrationRepository,
+    public DefaultOAuth2AuthorizedClientManager auth2AuthorizedClientManager(ClientRegistrationRepository clientRegistrationRepository,
                                                                       OAuth2AuthorizedClientRepository clientRepository) {
 
         OAuth2AuthorizedClientProvider auth2AuthorizedClientProvider = OAuth2AuthorizedClientProviderBuilder.builder()
