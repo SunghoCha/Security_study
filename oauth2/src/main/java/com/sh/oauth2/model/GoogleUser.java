@@ -6,7 +6,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 public class GoogleUser extends OAuth2ProviderUser{
 
     public GoogleUser(OAuth2User oAuth2User, ClientRegistration clientRegistration) {
-        super(oAuth2User, clientRegistration);
+        super(oAuth2User, clientRegistration, oAuth2User.getAttributes());
     }
 
     @Override

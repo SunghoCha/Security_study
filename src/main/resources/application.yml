@@ -1,6 +1,5 @@
-spring:
-  application:
-    name: security
+server:
+  port: 8088
 
   thymeleaf:
     cache: false
