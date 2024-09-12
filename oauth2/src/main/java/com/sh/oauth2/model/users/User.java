@@ -1,4 +1,4 @@
-package com.sh.oauth2.model;
+package com.sh.oauth2.model.users;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

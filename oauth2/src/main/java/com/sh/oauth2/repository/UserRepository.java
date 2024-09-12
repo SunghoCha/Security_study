@@ -1,6 +1,6 @@
 package com.sh.oauth2.repository;
 
-import com.sh.oauth2.model.User;
+import com.sh.oauth2.model.users.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

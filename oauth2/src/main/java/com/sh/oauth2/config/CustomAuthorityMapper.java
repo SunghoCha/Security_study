@@ -29,7 +29,7 @@ public class CustomAuthorityMapper implements GrantedAuthoritiesMapper {
         if (name.lastIndexOf(".") > 0) {
             int index = name.lastIndexOf(".");
             name = "SCOPE_" + name.substring(index + 1);
-        } else if (!name.startsWith(prefix)) {
+        } else if (!name.startsWith(prefix) && !name.startsWith("SCOPE")) {
             name = prefix + name;
         }
         return new SimpleGrantedAuthority(name);

@@ -1,5 +1,6 @@
 package com.sh.oauth2.service;
 
+import com.sh.oauth2.converters.ProviderUserRequest;
 import com.sh.oauth2.model.ProviderUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
@@ -23,8 +24,13 @@ public class CustomOAuth2UserService extends AbstractOAuth2UserService implement
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
+
+
         ClientRegistration clientRegistration = userRequest.getClientRegistration();
-        ProviderUser providerUser = super.createProviderUser(oAuth2User, clientRegistration);
+
+        ProviderUserRequest providerUserRequest = new ProviderUserRequest(clientRegistration, oAuth2User);
+
+        ProviderUser providerUser = createProviderUser(providerUserRequest);
         userService.register(clientRegistration.getRegistrationId(), providerUser);
 
         return oAuth2User;

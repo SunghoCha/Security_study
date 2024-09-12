@@ -1,7 +1,7 @@
 package com.sh.oauth2.service;
 
 import com.sh.oauth2.model.ProviderUser;
-import com.sh.oauth2.model.User;
+import com.sh.oauth2.model.users.User;
 import com.sh.oauth2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
