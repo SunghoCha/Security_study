@@ -1,5 +1,7 @@
 package com.sh.oauth2.service;
 
+import com.sh.oauth2.converters.ProviderUserConverter;
+import com.sh.oauth2.converters.ProviderUserRequest;
 import com.sh.oauth2.model.ProviderUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
@@ -13,10 +15,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-@RequiredArgsConstructor
+
 public class CustomOidcUserService extends AbstractOAuth2UserService implements OAuth2UserService<OidcUserRequest, OidcUser> {
 
     private final UserService userService;
+
+    public CustomOidcUserService(ProviderUserConverter<ProviderUserRequest, ProviderUser> providerUserConverter, UserService userService) {
+        super(providerUserConverter);
+        this.userService = userService;
+    }
 
     @Override
     public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {
@@ -24,7 +31,9 @@ public class CustomOidcUserService extends AbstractOAuth2UserService implements 
         OidcUser oidcUser = delegate.loadUser(userRequest);
 
         ClientRegistration clientRegistration = userRequest.getClientRegistration();
-        ProviderUser providerUser = super.createProviderUser(oidcUser, clientRegistration);
+        ProviderUserRequest providerUserRequest = new ProviderUserRequest(clientRegistration,oidcUser);
+
+        ProviderUser providerUser = createProviderUser(providerUserRequest);
         userService.register(clientRegistration.getRegistrationId(), providerUser);
 
         return oidcUser;
