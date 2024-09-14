@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public class DelegatingProviderUserConverter implements ProviderUserConverter<ProviderUserRequest, ProviderUser> {
 
-    private List<ProviderUserConverter<ProviderUserRequest, ProviderUser>> converters;
+    private final List<ProviderUserConverter<ProviderUserRequest, ProviderUser>> converters;
 
     public DelegatingProviderUserConverter(List<ProviderUserConverter<ProviderUserRequest, ProviderUser>> converters) {
         this.converters = List.of(new OAuth2GoogleProviderUserConverter(), new OAuth2NaverProviderUserConverter());

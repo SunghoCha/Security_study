@@ -2,6 +2,7 @@ package com.sh.oauth2.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProvider;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProviderBuilder;
@@ -28,5 +29,10 @@ public class AppConfig {
         oAuth2AuthorizedClientManager.setAuthorizedClientProvider(auth2AuthorizedClientProvider);
 
         return oAuth2AuthorizedClientManager;
+    }
+
+    @Bean
+    public GrantedAuthoritiesMapper customAuthorityMapper() {
+        return new CustomAuthorityMapper();
     }
 }

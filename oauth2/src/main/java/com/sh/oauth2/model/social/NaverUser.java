@@ -21,4 +21,9 @@ public class NaverUser extends OAuth2ProviderUser {
     public String getUsername() {
         return (String) getAttributes().get("email");
     }
+
+    @Override
+    public String getPicture() {
+        return (String)getAttributes().get("profile_image");
+    }
 }
