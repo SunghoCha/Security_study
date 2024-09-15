@@ -9,7 +9,7 @@ import java.util.List;
 public class OAuth2GoogleProviderUserConverter implements ProviderUserConverter<ProviderUserRequest, ProviderUser> {
 
     @Override
-    public ProviderUser converter(ProviderUserRequest providerUserRequest) {
+    public ProviderUser convert(ProviderUserRequest providerUserRequest) {
         if (!OAuth2Config.SocialType.GOOGLE.getSocialName().equals(providerUserRequest.clientRegistration().getRegistrationId())) {
             return null;
         }

@@ -22,6 +22,7 @@ import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepo
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration(proxyBeanMethods = false)
@@ -48,12 +49,19 @@ public class OAuth2ClientConfig {
                         .requestMatchers("/static/js/**", "/static/images/**", "/static/css/**","/static/scss/**").permitAll()
                         .requestMatchers("/").permitAll()
                         .anyRequest().authenticated())
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/login")
+                        .loginProcessingUrl("/loginProc")
+                        .defaultSuccessUrl("/")
+                        .permitAll())
                 .oauth2Login(oauth2 -> oauth2
                         .userInfoEndpoint((userInfoEndpointConfig -> userInfoEndpointConfig
                                 .userService(customOAuth2UserService)
                                 .oidcUserService(customOidcUserService))))
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/"));
+                        .logoutSuccessUrl("/"))
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login")));
 
         return http.build();
     }

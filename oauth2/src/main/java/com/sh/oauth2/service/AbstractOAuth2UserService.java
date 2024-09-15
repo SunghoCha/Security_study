@@ -7,6 +7,7 @@ import com.sh.oauth2.model.social.GoogleUser;
 import com.sh.oauth2.model.social.KeycloakUser;
 import com.sh.oauth2.model.social.NaverUser;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
 public abstract class AbstractOAuth2UserService {
@@ -18,6 +19,6 @@ public abstract class AbstractOAuth2UserService {
     }
 
     protected ProviderUser createProviderUser(ProviderUserRequest providerUserRequest) {
-        return providerUserConverter.converter(providerUserRequest);
+        return providerUserConverter.convert(providerUserRequest);
     }
 }

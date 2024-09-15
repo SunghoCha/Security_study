@@ -7,7 +7,7 @@ import com.sh.oauth2.model.social.NaverUser;
 public class OAuth2NaverProviderUserConverter implements ProviderUserConverter<ProviderUserRequest, ProviderUser> {
 
     @Override
-    public ProviderUser converter(ProviderUserRequest providerUserRequest) {
+    public ProviderUser convert(ProviderUserRequest providerUserRequest) {
 
         if (OAuth2Config.SocialType.NAVER.getSocialName().equals(providerUserRequest.clientRegistration().getRegistrationId())) {
             return null;

@@ -8,8 +8,11 @@ import java.util.Map;
 
 public class NaverUser extends OAuth2ProviderUser {
 
+    private final Map<String, Object> response;
+
     public NaverUser(OAuth2User oAuth2User, ClientRegistration clientRegistration) {
-        super(oAuth2User, clientRegistration, (Map<String, Object>) oAuth2User.getAttributes().get("response"));
+        super(oAuth2User, clientRegistration, oAuth2User.getAttributes());
+        response = (Map<String, Object>) getAttributes().get("response");
     }
 
     @Override
@@ -19,11 +22,11 @@ public class NaverUser extends OAuth2ProviderUser {
 
     @Override
     public String getUsername() {
-        return (String) getAttributes().get("email");
+        return (String) response.get("email");
     }
 
     @Override
     public String getPicture() {
-        return (String)getAttributes().get("profile_image");
+        return (String) response.get("profile_image");
     }
 }

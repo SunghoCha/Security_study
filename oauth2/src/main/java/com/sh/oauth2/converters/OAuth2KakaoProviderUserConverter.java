@@ -3,6 +3,7 @@ package com.sh.oauth2.converters;
 import com.sh.oauth2.enums.OAuth2Config;
 import com.sh.oauth2.model.ProviderUser;
 import com.sh.oauth2.model.social.GoogleUser;
+import com.sh.oauth2.model.social.KakaoUser;
 
 public class OAuth2KakaoProviderUserConverter implements ProviderUserConverter<ProviderUserRequest, ProviderUser> {
 
@@ -13,13 +14,8 @@ public class OAuth2KakaoProviderUserConverter implements ProviderUserConverter<P
             return null;
         }
 
-        if (providerUserRequest.oAuth2User() instanceof OidcUser) {
-            return null;
-        }
-
-        return new KakaoUser(OAuth2Utils.getOtherAttributes(
-                providerUserRequest.oAuth2User(), "kakao_account", "profile"),
-                providerUserRequest.oAuth2User(),
-                providerUserRequest.clientRegistration());
+        return new KakaoUser(providerUserRequest.oAuth2User(), providerUserRequest.clientRegistration());
     }
+
+
 }
