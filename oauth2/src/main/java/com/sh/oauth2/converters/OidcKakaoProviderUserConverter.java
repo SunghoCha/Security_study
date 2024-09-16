@@ -2,11 +2,10 @@ package com.sh.oauth2.converters;
 
 import com.sh.oauth2.enums.OAuth2Config;
 import com.sh.oauth2.model.ProviderUser;
-import com.sh.oauth2.model.social.GoogleUser;
 import com.sh.oauth2.model.social.KakaoUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 
-public class OAuth2KakaoProviderUserConverter implements ProviderUserConverter<ProviderUserRequest, ProviderUser> {
+public class OidcKakaoProviderUserConverter implements ProviderUserConverter<ProviderUserRequest, ProviderUser> {
 
     @Override
     public ProviderUser convert(ProviderUserRequest providerUserRequest) {
@@ -15,7 +14,7 @@ public class OAuth2KakaoProviderUserConverter implements ProviderUserConverter<P
             return null;
         }
 
-        if (providerUserRequest.oAuth2User() instanceof OidcUser) {
+        if (!(providerUserRequest.oAuth2User() instanceof OidcUser)) {
             return null;
         }
 

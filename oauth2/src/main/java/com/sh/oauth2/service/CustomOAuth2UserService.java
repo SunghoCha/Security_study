@@ -31,6 +31,7 @@ public class CustomOAuth2UserService extends AbstractOAuth2UserService implement
 
         ClientRegistration clientRegistration = userRequest.getClientRegistration();
         ProviderUserRequest providerUserRequest = new ProviderUserRequest(clientRegistration, oAuth2User);
+
         ProviderUser providerUser = createProviderUser(providerUserRequest);
         userService.register(clientRegistration.getRegistrationId(), providerUser);
 

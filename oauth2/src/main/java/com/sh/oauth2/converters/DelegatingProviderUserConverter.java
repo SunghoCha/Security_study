@@ -15,14 +15,19 @@ public class DelegatingProviderUserConverter implements ProviderUserConverter<Pr
     private final List<ProviderUserConverter<ProviderUserRequest, ProviderUser>> converters;
 
     public DelegatingProviderUserConverter(List<ProviderUserConverter<ProviderUserRequest, ProviderUser>> converters) {
-        this.converters = List.of(new OAuth2GoogleProviderUserConverter(), new OAuth2NaverProviderUserConverter());
+        this.converters = List.of(
+                new OAuth2GoogleProviderUserConverter(),
+                new OAuth2NaverProviderUserConverter(),
+                new OAuth2KakaoProviderUserConverter(),
+                new OidcKakaoProviderUserConverter()
+        );
     }
 
     @Override
-    public ProviderUser converter(ProviderUserRequest providerUserRequest) {
+    public ProviderUser convert(ProviderUserRequest providerUserRequest) {
         Assert.notNull(providerUserRequest, "providerUserRequest cannot be null");
         for (ProviderUserConverter<ProviderUserRequest, ProviderUser> converter : converters) {
-            ProviderUser providerUser = converter.converter(providerUserRequest);
+            ProviderUser providerUser = converter.convert(providerUserRequest);
             if (providerUser != null) {
                 return providerUser;
             }
